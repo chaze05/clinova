@@ -1,9 +1,11 @@
 # Use PHP with Apache
 FROM php:8.2-apache
 
-# Install system dependencies
+# Install system dependencies (IMPORTANT FIX HERE)
 RUN apt-get update && apt-get install -y \
-    zip unzip git curl libpng-dev libonig-dev libxml2-dev
+    zip unzip git curl \
+    libpng-dev libonig-dev libxml2-dev \
+    libpq-dev
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_pgsql mbstring exif pcntl bcmath gd
