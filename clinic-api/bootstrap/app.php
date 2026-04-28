@@ -17,9 +17,9 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'clinic' => \App\Http\Middleware\EnsureClinicAccess::class,
         ]);    
-        $middleware->appendToGroup('api', [
-            EnsureFrontendRequestsAreStateful::class,
-        ]);
+        // $middleware->appendToGroup('api', [
+        //     EnsureFrontendRequestsAreStateful::class,
+        // ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
