@@ -37,7 +37,8 @@ export default api;
 
 
 export const publicApi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_UR || "http://localhost:8000",
+  // baseURL: process.env.NEXT_PUBLIC_API_UR || "http://localhost:8000",
+  baseURL: process.env.NEXT_PUBLIC_API_UR || "https://clinova.onrender.com/",
 });
 // import axios from "axios";
 

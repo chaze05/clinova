@@ -13,6 +13,7 @@ return [
 
     'allowed_origins' => [
         'http://localhost:3001',
+        'https://clinova-omega.vercel.app',
     ],
 
     'allowed_origins_patterns' => [],
