@@ -40,23 +40,23 @@ export default function RequestsTable() {
   // =========================
   // RESCHEDULE
   // =========================
-  const handleSaveReschedule = async (date: string, time: string) => {
-    await api.post("/api/appointments/reschedule", {
-      id: selectedAppointment.id,
-      date,
-      time,
-    });
+  // const handleSaveReschedule = async (date: string, time: string) => {
+  //   await api.post("/api/appointments/reschedule", {
+  //     id: selectedAppointment.id,
+  //     date,
+  //     time,
+  //   });
 
-    setData((prev) =>
-      prev.map((item) =>
-        item.id === selectedAppointment.id
-          ? { ...item, appointment_date: date, start_time: time }
-          : item
-      )
-    );
+  //   setData((prev) =>
+  //     prev.map((item) =>
+  //       item.id === selectedAppointment.id
+  //         ? { ...item, appointment_date: date, start_time: time }
+  //         : item
+  //     )
+  //   );
 
-    setOpen(false);
-  };
+  //   setOpen(false);
+  // };
 
   // =========================
   // RESCHEDULE
