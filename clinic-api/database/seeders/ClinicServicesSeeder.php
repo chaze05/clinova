@@ -30,7 +30,6 @@ class ClinicServicesSeeder extends Seeder
                         'price' => $service->default_price,
                         'duration' => $service->default_duration,
                         'is_active' => 1,
-
                         'created_at' => $now,
                         'updated_at' => $now,
                     ]
