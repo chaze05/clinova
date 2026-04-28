@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class ClinicServicesSeeder extends Seeder
+class ClinicServiceSeeder extends Seeder
 {
     public function run(): void
     {
