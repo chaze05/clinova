@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             ClinicDetailSeeder::class,
             ServiceSeeder::class,
-            ClinicServiceSeeder::class,
+            ClinicServicesSeeder::class,
             PatientSeeder::class,
             AppointmentSeeder::class,
             DoctorProfileSeeder::class,
