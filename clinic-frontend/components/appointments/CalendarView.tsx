@@ -162,7 +162,7 @@ import BookingForm from "../forms/BookingForm";
 import { getClinicData } from "@/lib/auth";
 import { useAuthStore } from "@/store/auth.store";
 import { useRef } from "react";
-
+import { getClinicTheme } from "@/lib/theme";
 
 export default function ApprovedCalendar() {
   const [events, setEvents] = useState([]);
@@ -175,7 +175,7 @@ export default function ApprovedCalendar() {
 
   const user = useAuthStore((s) => s.user);
   const [clinicData, setClinicData] = useState<any>(null);
-
+  const theme = getClinicTheme();
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   tomorrow.setHours(0, 0, 0, 0);
@@ -319,7 +319,7 @@ export default function ApprovedCalendar() {
                 mode="admin"
                 date={date}
                 clinicData={clinicData}
-                theme={{} as any}
+                theme={theme}
                 onClose={() => {
                   setOpen(false);
                   fetchApproved();
