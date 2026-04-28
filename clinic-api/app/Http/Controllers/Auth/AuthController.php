@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\AuthService;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -16,31 +17,27 @@ class AuthController extends Controller
     }
 
     /**
-     * LOGIN
+     * LOGIN (SANCTUM SPA - COOKIE BASED)
      */
     public function login(Request $request)
     {
-        $request->validate([
+        $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
 
-        $result = $this->authService->login(
-            $request->email,
-            $request->password
-        );
-
-        if (!$result) {
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'message' => 'Invalid credentials'
             ], 401);
         }
 
-        return response()->json([
-            'message' => 'Login successful',
-            'user' => $result['user'],
-            'token' => $result['token']
-        ]);
+        // IMPORTANT: regenerate session AFTER login
+        $request->session()->regenerate();
+
+        return response()->json(
+            Auth::user() // 🔥 IMPORTANT: return raw user
+        );
     }
 
     /**
@@ -64,11 +61,16 @@ class AuthController extends Controller
     }
 
     /**
-     * LOGOUT
+     * LOGOUT (SANCTUM SPA)
      */
     public function logout(Request $request)
     {
-        $request->user()->tokens()->delete();
+        if (Auth::check()) {
+            Auth::guard('web')->logout();
+        }
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
         return response()->json([
             'message' => 'Logged out successfully'
@@ -80,8 +82,8 @@ class AuthController extends Controller
      */
     public function user(Request $request)
     {
-        return response()->json([
-            'user' => $request->user()
-        ]);
+        return response()->json(
+            $request->user() // 🔥 return raw user (NOT wrapped)
+        );
     }
 }

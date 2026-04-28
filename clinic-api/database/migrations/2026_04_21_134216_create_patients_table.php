@@ -21,11 +21,12 @@ return new class extends Migration
             $table->string('name');
             $table->date('birthdate')->nullable();
             $table->string('gender')->nullable();
-
+            $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
             $table->text('address')->nullable();
 
             $table->text('notes')->nullable();
+            $table->text('status')->nullable();
 
             $table->timestamps();
         });

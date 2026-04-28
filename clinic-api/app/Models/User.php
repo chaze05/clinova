@@ -2,7 +2,10 @@
 
 namespace App\Models;
 use App\Models\Permission;
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Patient;
+use App\Models\User;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -22,6 +25,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
+        'role',
+        'clinic_id',
         'password',
     ];
 
@@ -64,5 +69,18 @@ class User extends Authenticatable
         return $this->permissions()
             ->where('key', $key)
             ->exists();
+    }
+
+    public function doctorProfile()
+    {
+        return $this->hasOne(DoctorProfile::class);
+    }
+    public function patient()
+    {
+        return $this->hasMany(Patient::class);
+    }
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class);
     }
 }

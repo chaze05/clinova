@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\User;
+use App\Models\Clinic;
 use App\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 

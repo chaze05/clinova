@@ -9,6 +9,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Appointment extends Model
 {
+    protected $fillable = [
+        'clinic_id',
+        'doctor_id',
+        'patient_id',
+        'service_id',
+        'appointment_date',
+        'start_time',
+        'status',
+        'created_by'
+    ];
+
     public function clinic()
     {
         return $this->belongsTo(Clinic::class);
@@ -29,10 +40,15 @@ class Appointment extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
-    public function services()
+    public function service()
     {
-        return $this->belongsToMany(Service::class)
-            ->withPivot('price')
-            ->withTimestamps();
+        return $this->belongsTo(Service::class, 'created_by');
     }
+
+    // public function services()
+    // {
+    //     return $this->belongsToMany(Service::class)
+    //     ->withPivot('price')
+    //     ->withTimestamps();
+    // }
 }

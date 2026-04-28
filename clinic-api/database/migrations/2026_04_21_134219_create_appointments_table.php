@@ -30,6 +30,9 @@ return new class extends Migration
                 ->constrained('users')
                 ->onDelete('cascade');
 
+            $table->foreignId('service_id')
+                ->constrained('services')
+                ->cascadeOnDelete();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
 

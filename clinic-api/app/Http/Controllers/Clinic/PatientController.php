@@ -5,9 +5,16 @@ namespace App\Http\Controllers\Clinic;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Patient;
+use App\Services\PatientService;
 
 class PatientController extends Controller
 {
+    protected $service;
+    
+    public function __construct()
+    {
+        $this->service = new PatientService(); // ❌ or missing entirely
+    }
     /**
      * CREATE PATIENT
      */
@@ -38,19 +45,34 @@ class PatientController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'patient_id' => 'nullable',
-            'patient.first_name' => 'nullable',
-            'patient.last_name' => 'nullable',
-            'patient.phone' => 'required',
-
-            'doctor_id' => 'required',
-            'appointment_date' => 'required|date',
-            'start_time' => 'nullable',
-            'end_time' => 'nullable',
+            'clinic_id'=>'nullable',
+            'patientName' => 'nullable',
+            'patientEmail' => 'nullable',
+            'patientMobile' => 'required',
+            'service'       => 'required',
+            'doctor_id' => 'nullable',
+            'date' => 'required|date',
+            'time' => 'nullable',
+            'end_time' => 'nullable'
         ]);
 
         return response()->json(
-            $this->service->create($data, $request->user())
+            $this->service->findOrCreate($data, $request->user()->clinic_id)
+        );
+    }
+
+    public function patient(Request $request)
+    {
+        $data = $request->validate([
+            'clinic_id'=>'nullable',
+            'patientName' => 'required',
+            'patientEmail' => 'required',
+            'patientMobile' => 'required',
+            'status'        => 'nullable',
+        ]);
+
+        return response()->json(
+            $this->service->patient($data, $request->user()->clinic_id)
         );
     }
 
@@ -60,8 +82,8 @@ class PatientController extends Controller
     public function index(Request $request)
     {
         return Patient::where('clinic_id', $request->user()->clinic_id)
-            ->latest()
-            ->get();
+        ->latest()
+        ->get();
     }
 
     /**
@@ -90,28 +112,40 @@ class PatientController extends Controller
     /**
      * SEARCH PATIENTS (for booking UI)
      */
+    // public function search(Request $request)
+    // {
+    //     $request->validate([
+    //         'q' => 'required|string|min:2'
+    //     ]);
+
+    //     return Patient::where('clinic_id', $request->user()->clinic_id)
+    //         ->where(function ($q) use ($request) {
+    //             $q->where('first_name', 'like', "%{$request->q}%")
+    //               ->orWhere('last_name', 'like', "%{$request->q}%")
+    //               ->orWhere('phone', 'like', "%{$request->q}%")
+    //               ->orWhere('email', 'like', "%{$request->q}%")
+    //         })
+    //         ->limit(10)
+    //         ->get()
+    //         ->map(function ($patient) {
+    //             return [
+    //                 'id' => $patient->id,
+    //                 'name' => $patient->first_name . ' ' . $patient->last_name,
+    //                 'phone' => $patient->phone,
+    //                 'email' => $patient->email,
+    //             ];
+    //         });
+    // }
     public function search(Request $request)
     {
-        $request->validate([
-            'q' => 'required|string|min:2'
-        ]);
+        $query = $request->query('q');
 
-        return Patient::where('clinic_id', $request->user()->clinic_id)
-            ->where(function ($q) use ($request) {
-                $q->where('first_name', 'like', "%{$request->q}%")
-                  ->orWhere('last_name', 'like', "%{$request->q}%")
-                  ->orWhere('phone', 'like', "%{$request->q}%")
-                  ->orWhere('email', 'like', "%{$request->q}%");
-            })
-            ->limit(10)
-            ->get()
-            ->map(function ($patient) {
-                return [
-                    'id' => $patient->id,
-                    'name' => $patient->first_name . ' ' . $patient->last_name,
-                    'phone' => $patient->phone,
-                    'email' => $patient->email,
-                ];
-            });
+        if (!$query) {
+            return response()->json([]);
+        }
+
+        $patients = $this->service->searchPatients($query);
+
+        return response()->json($patients);
     }
 }

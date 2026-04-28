@@ -22,10 +22,24 @@ class AppointmentService
     }
 
     // GET ALL APPOINTMENTS (CLINIC SCOPED)
-    public function getAll($clinicId)
+    public function getAll($request, $clinicId)
+    {
+        $status = $request->query('status');
+
+        return Appointment::where('clinic_id', $clinicId)
+            ->with(['patient', 'doctor','service'])
+            ->when($status, function ($query) use ($status) {
+                $query->where('status', $status);
+            })
+            ->orderBy('appointment_date', 'desc')
+            ->get();
+    }
+
+    public function fitlerStatus($clinicId,$stauts)
     {
         return Appointment::where('clinic_id', $clinicId)
             ->with(['patient', 'doctor'])
+            ->whereStatus('status', $stauts)
             ->latest()
             ->get();
     }
@@ -38,26 +52,27 @@ class AppointmentService
 
         $patientId = $patient->id;
 
-        $blocked = ClinicSchedule::where('clinic_id', $clinicId)
-        ->whereDate('date', $data['appointment_date'])
-        ->first();
+        // $blocked = ClinicSchedule::where('clinic_id', $clinicId)
+        // ->whereDate('date', $data['date'])
+        // ->first();
 
-        if ($blocked && $blocked->type === 'full_day_off') {
-            abort(422, 'Clinic is closed on this date');
-        }
+        // if ($blocked && $blocked->type === 'full_day_off') {
+        //     abort(422, 'Clinic is closed on this date');
+        // }
 
-        $this->validateAppointmentRules($data, $user->clinic_id);
+        // $this->validateAppointmentRules($data, $user->clinic_id);
 
         // 2. CREATE APPOINTMENT
         return Appointment::create([
             'clinic_id' => $user->clinic_id,
             'patient_id' => $patientId,
-            'doctor_id' => $data['doctor_id'],
-            'appointment_date' => $data['appointment_date'],
-            'start_time' => $data['start_time'] ?? null,
+            'doctor_id' => $user->id,
+            'appointment_date' => $data['date'],
+            'service_id' => $data['service'],
+            'start_time' => $data['time'] ?? null,
             'end_time' => $data['end_time'] ?? null,
-            'status' => 'pending',
-            'created_by' => $user->id,
+            'status' => $user->id ? 'confirmed':'pending',
+            'created_by' => $user->id ?? $patientId,
         ]);
     }
 

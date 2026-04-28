@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\AppointmentService;
 
+
 class AppointmentController extends Controller
 {
     public function __construct(
@@ -16,7 +17,13 @@ class AppointmentController extends Controller
     public function index(Request $request)
     {
         return response()->json(
-            $this->service->getAll($request->user()->clinic_id)
+            $this->service->getAll($request, $request->user()->clinic_id)
+        );
+    }
+    public function filterStatus(Request $request)
+    {
+        return response()->json(
+            $this->service->getAllStatus($request->user()->clinic_id,$data['status'])
         );
     }
 
@@ -25,19 +32,18 @@ class AppointmentController extends Controller
         $data = $request->validate([
             // PATIENT
             'patient_id' => 'nullable|exists:patients,id',
-            'patient.first_name' => 'required_without:patient_id|string|max:255',
-            'patient.last_name' => 'nullable|string|max:255',
-            'patient.phone' => 'nullable|string|max:50',
+            'patientName' => 'required_without:patient_id|string|max:255',
+            'patientMobile' => 'nullable|string|max:50',
 
             // APPOINTMENT DETAILS
-            'doctor_id' => 'required|exists:users,id',
-            'appointment_date' => 'required|date|after_or_equal:today',
-            'start_time' => 'nullable|date_format:H:i',
+            // 'doctor_id' => 'nullable|exists:users,id',
+            'date' => 'required|date|after_or_equal:today',
+            'time' => 'nullable|date_format:H:i',
             'end_time' => 'nullable|date_format:H:i|after:start_time',
 
             // SERVICES
-            'services' => 'nullable|array',
-            'services.*.id' => 'required|exists:services,id',
+            'service' => 'nullable',
+            // 'services.*.id' => 'required|exists:services,id',
         ]);
 
         $appointment = $this->service->create($data, $request->user());
@@ -126,7 +132,7 @@ class AppointmentController extends Controller
     public function cancel(Request $request, $id)
     {
         return response()->json(
-            $this->service->updateStatus($id, 'cancelled', $request->user()->clinic_id)
+            $this->service->updateStatus($id, 'rejected', $request->user()->clinic_id)
         );
     }
 

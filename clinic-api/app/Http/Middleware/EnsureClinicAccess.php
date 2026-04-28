@@ -11,15 +11,19 @@ class EnsureClinicAccess
     {
         $user = $request->user();
 
+        // ALWAYS check this first
         if (!$user) {
             return response()->json(['message' => 'Unauthenticated'], 401);
         }
 
-        if (!$user->clinic_id) {
-            return response()->json(['message' => 'No clinic assigned'], 403);
+        // Then role logic
+        if ($user->role !== "admin") {
+            if (!$user->clinic_id) {
+                return response()->json(['message' => 'No clinic assigned'], 403);
+            }
         }
 
-        // Attach clinic context globally for convenience
+        // Attach clinic context safely
         $request->merge([
             'clinic_id' => $user->clinic_id
         ]);
