@@ -369,7 +369,7 @@ export default function LandingPage() {
 
       {/* FOOTER */}
       <footer className="text-center py-10 text-gray-500 text-sm">
-        © {new Date().getFullYear()} Clinova. All rights reserved.
+        © {new Date().getFullYear()} <a href="https://clinova-omega.vercel.app">Clinova</a>. All rights reserved.
       </footer>
     </div>
   );
