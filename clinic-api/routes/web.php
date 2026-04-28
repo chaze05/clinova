@@ -20,6 +20,6 @@ use App\Http\Controllers\Auth\AuthController;
 // /**
 //  * OPTIONAL: simple test endpoint
 //  */
-// Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
-//     return $request->user();
-// });
+Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
+    return $request->user();
+});

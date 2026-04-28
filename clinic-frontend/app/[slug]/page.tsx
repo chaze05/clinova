@@ -18,28 +18,28 @@
 //     </div>
 //   );
 // }
-
 import { notFound } from "next/navigation";
-
-import { getClinic } from "@/lib/auth";
-import api, { publicApi } from "@/lib/api";
-import axios from "axios";
 import { getClinicTheme } from "@/lib/theme";
 import { templates } from "@/lib/template";
 
 export default async function ClinicPage({ params }: any) {
-  const {slug} = await params;
+  const { slug } = params;
 
+  const res = await fetch(
+    `https://clinova.onrender.com/api/public/${slug}`,
+    {
+      cache: "no-store",
+    }
+  );
 
-  const res = await publicApi.get(`/api/public/${slug}`);
-  const clinic = res.data;
+  if (!res.ok) return notFound();
+
+  const clinic = await res.json();
 
   if (!clinic) return notFound();
 
   const theme = getClinicTheme(clinic.theme);
   const Template = templates[clinic.layout_template || "modern"];
 
-  return (
-    <Template clinic={clinic} theme={theme} />
-  );
+  return <Template clinic={clinic} theme={theme} />;
 }
