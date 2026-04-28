@@ -108,7 +108,7 @@ export default function BookingForm({
       const res = await api.post("/api/patients", newPatient);
       handleSelectPatient(res.data);
       setOpenPatientModal(false);
-      setNewPatient({ name: "", email: "", mobile: "" });
+      setNewPatient({ patientName: "", patientEmail: "", patientMobile: "" });
     } catch (err) {
       console.error(err);
     }
