@@ -636,7 +636,7 @@ export default function BookingForm({
         </div>
 
         {/* ================= ATTACHMENT ================= */}
-        <div className="mb-1">
+        {/* <div className="mb-1">
           <p className="text-left">Attachment (optional)</p>
 
           <input
@@ -655,7 +655,7 @@ export default function BookingForm({
               Selected: {attachment.name}
             </p>
           )}
-        </div>
+        </div> */}
 
       </form>
 
@@ -665,9 +665,7 @@ export default function BookingForm({
           disabled={loading}
           type="submit"
           form="booking-form"
-          className={`w-full bg-green-600 text-white py-3 rounded-sm ${
-            theme?.primary || "bg-green-600"
-          }`}
+          className={`w-full cursor-potiner text-white py-3 rounded-sm ${theme.button}`}
         >
           {loading
             ? "Processing..."

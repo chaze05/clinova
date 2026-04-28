@@ -6,38 +6,36 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class ClinicServiceSeeder extends Seeder
+class ClinicServicesSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('clinic_service')->insert([
-            [
-                'clinic_id' => 1,
-                'service_id' => 1,
-                'price' => 300,
-                'duration' => 30,
-                'is_active' => 1,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'clinic_id' => 1,
-                'service_id' => 2,
-                'price' => 800,
-                'duration' => 60,
-                'is_active' => 1,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-            [
-                'clinic_id' => 1,
-                'service_id' => 3,
-                'price' => 1200,
-                'duration' => 45,
-                'is_active' => 1,
-                'created_at' => Carbon::now(),
-                'updated_at' => Carbon::now(),
-            ],
-        ]);
+        $now = Carbon::now();
+
+        // change this if multiple clinics later
+        $clinics = DB::table('clinics')->pluck('id');
+
+        $services = DB::table('services')->get();
+
+        foreach ($clinics as $clinicId) {
+            foreach ($services as $service) {
+
+                DB::table('clinic_services')->updateOrInsert(
+                    [
+                        'clinic_id' => $clinicId,
+                        'service_id' => $service->id,
+                    ],
+                    [
+                        // use service defaults (can override later per clinic)
+                        'price' => $service->default_price,
+                        'duration' => $service->default_duration,
+                        'is_active' => 1,
+
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]
+                );
+            }
+        }
     }
 }

@@ -1,9 +1,10 @@
 export default function DoctorsGrid({ clinic }: any) {
-    const {name,email,image} = clinic.doctor;
+    const {name,email,image,doctor_id} = clinic.doctor;
+    console.log('here',{clinic});
     return (
         <section id="doctors" className="py-10 px-6 bg-gray-100">
             <h2 className="text-3xl font-bold text-gray-800 text-center">
-                Doctors
+                Doctor
             </h2>
             <div className="w-full flex justify-center py-5">
             <div className="w-full max-w-5xl px-4">
@@ -27,7 +28,7 @@ export default function DoctorsGrid({ clinic }: any) {
                 </div>
 
                 {/* RIGHT: CONTENT 50% */}
-                <div className="md:w-1/2 w-full flex flex-col justify-center p-8 bg-white rounded-r-2xl">
+                <div className="md:w-1/2 w-full flex flex-col items-start justify-start p-8 bg-white rounded-r-2xl">
 
                     <h2 className="text-2xl font-bold text-gray-800">
                     {name ? name : 'Dr. John Doe' }
@@ -38,7 +39,7 @@ export default function DoctorsGrid({ clinic }: any) {
                     </p>
 
                     <p className="text-sm text-gray-400 mt-2">
-                    Cardiology Specialist
+                    General Specialist
                     </p>
 
                     <p className="text-gray-600 mt-4 leading-relaxed">
@@ -47,7 +48,7 @@ export default function DoctorsGrid({ clinic }: any) {
                     </p>
 
                     {/* Dummy stats / info */}
-                    <div className="mt-6 flex gap-3 flex-wrap">
+                    <div className="mt-6 flex gap-3 flex-wrap mt-auto">
                     <span className="text-xs px-3 py-1 bg-green-100 text-green-600 rounded-full">
                         Available Today
                     </span>

@@ -13,9 +13,9 @@ class ClinicSeeder extends Seeder
     {
         DB::table('clinics')->insert([
             [
-                'name' => 'Clinova Dental Clinic',
-                'slug' => Str::slug('Clinova Dental Clinic'),
-                'domain' => 'clinova.local',
+                'name' => 'B.Sanchez Dental Clinic',
+                'slug' => Str::slug('b-sanchez-dental-clinic'),
+                'domain' => 'b-sanchez.local',
                 'is_active' => 1,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),

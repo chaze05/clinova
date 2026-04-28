@@ -24,7 +24,7 @@ export default function Booking({clinic,theme}:any) {
     <>
       <AnimatedToaster />
       <div>
-          <button className={`mt-6 px-6 py-3 ${theme.primary} rounded-xl`} onClick={()=>(setOpen(true))}>
+          <button className={`mt-6 px-6 py-3 ${theme.button} rounded-xl`} onClick={()=>(setOpen(true))}>
             Book Appointment
           </button>
       </div>

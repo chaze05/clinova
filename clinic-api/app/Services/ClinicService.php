@@ -286,6 +286,7 @@ class ClinicService
             ],
 
             'doctor' => $clinic->doctor ? [
+                'clinic_id' => $clinic->id,
                 'doctor_id' => $clinic->doctor->id,
                 'name' => $clinic->doctor->name,
                 'email' => $clinic->doctor->email,

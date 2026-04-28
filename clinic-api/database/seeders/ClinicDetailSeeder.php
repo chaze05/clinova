@@ -18,7 +18,7 @@ class ClinicDetailSeeder extends Seeder
                 'contact_email' => 'info@clinova.com',
                 'contact_phone' => '09123456789',
                 'logo' => null,
-                'primary_color' => '#16a34a',
+                'primary_color' => 'blue',
                 'secondary_color' => '#0f172a',
                 'theme' => 'green',
                 'template_key' => 'modern',

@@ -1,7 +1,7 @@
 import Booking from "@/components/booking/Booking";
 import FadeInSection from "./FadeInSection";
 export default function Hero({ clinic, theme }: any) {
-  const bgImage = clinic?.heroImage || clinic?.coverImage;
+  const bgImage = clinic?.heroImage || clinic?.coverImage || 'https://plus.unsplash.com/premium_photo-1682097288491-7e926a30cd0b?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZGVudGFsfGVufDB8fDB8fHww';
 
   return (
     <section

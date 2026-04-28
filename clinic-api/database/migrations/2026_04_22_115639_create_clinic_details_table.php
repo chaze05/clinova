@@ -21,7 +21,7 @@ return new class extends Migration
 
         $table->string('primary_color')->default('#16a34a');
         $table->string('secondary_color')->default('#0f172a');
-        $table->string('theme')->default('green');
+        $table->string('theme')->default('blue');
         $table->string('template_key')->default('mdoern');
 
         // 🧾 BOOKING SETTINGS

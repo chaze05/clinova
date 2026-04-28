@@ -1,4 +1,4 @@
-export default function MapSection({ clinic }: any) {
+export default function MapSection({ clinic,theme }: any) {
   // fallback dummy data
   const data = {
     address: clinic?.address || "123 Medical Street, Quezon City, Philippines",
@@ -60,11 +60,10 @@ export default function MapSection({ clinic }: any) {
 
           {/* CTA feel (optional but subtle) */}
           <div className="mt-6">
-            <button className="text-sm bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition">
+            <button className={`text-sm ${theme.button} text-white px-4 py-2 rounded-lg transition`}>
               Get Directions
             </button>
           </div>
-
         </div>
 
       </div>
