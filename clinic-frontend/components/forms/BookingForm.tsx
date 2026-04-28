@@ -53,44 +53,43 @@ export default function BookingForm({
     email: "",
     mobile: "",
   });
+  
 
-  // ================= DATE PICKER =================
-  useEffect(() => {
-    if (!dateRef.current) return;
-    const fp = flatpickr(dateRef.current, {
-      defaultDate: date || null, 
-      minDate: new Date().fp_incr(1),
-      disable: [(date) => date.getDay() === 0],
-      onChange: (_, dateStr) => {
-        handleChange("date", dateStr);
-      },
-    });
 
-    return () => fp.destroy();
-  }, []);
+    // ================= SEARCH =================
+    const fetchPatients = async (query: string) => {
+      try {
+        const res = await api.get("/api/patients/search", {
+          params: { q: query },
+        });
+        setPatients(res.data);
+      } catch {
+        setPatients([]);
+      }
+    };
 
-  // ================= SEARCH =================
-  const debouncedSearch = useDebounce(patientSearch, 300);
+    const debouncedSearch = useDebounce(patientSearch, 300);
 
-  useEffect(() => {
-    if (mode !== "admin") return;
-    if (!debouncedSearch || debouncedSearch.length < 2) {
-      setPatients([]);
-      return;
-    }
-    api.get(`/api/patients/search?q=${debouncedSearch}`)
-    .then((res) => setPatients(res.data))
-    .catch(() => setPatients([]));
-  }, [debouncedSearch, mode]);
+    useEffect(() => {
+      if (mode !== "admin") return;
+      if (!debouncedSearch || debouncedSearch.length < 2) {
+        setPatients([]);
+        return;
+      }
 
-  // ================= HANDLERS =================
-  const handleChange = (key: string, value: string) => {
-    setForm((prev) => ({
-      ...prev,
-      [key]: value,
-    }));
-  };
+      fetchPatients(debouncedSearch);
+    }, [debouncedSearch, mode]);
 
+
+
+    // ================= HANDLERS =================
+    const handleChange = (key: string, value: string) => {
+      setForm((prev) => ({
+        ...prev,
+        [key]: value,
+      }));
+    };
+    
   const handleSelectPatient = (p: any) => {
     setSelectedPatient(p);
     setForm((prev) => ({
@@ -114,6 +113,22 @@ export default function BookingForm({
       console.error(err);
     }
   };
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+    // ================= DATE PICKER =================
+    useEffect(() => {
+      if (!dateRef.current) return;
+      const fp = flatpickr(dateRef.current, {
+        defaultDate: date || null, 
+        minDate: tomorrow,
+        disable: [(date) => date.getDay() === 0],
+        onChange: (_, dateStr) => {
+          handleChange("date", dateStr);
+        },
+      });
+
+      return () => fp.destroy();
+    }, []);
 
   // ================= SUBMIT =================
   const handleSubmit = async (e: React.FormEvent) => {
@@ -122,7 +137,7 @@ export default function BookingForm({
     setError({});
 
     try {
-      let payload: any = {
+      const payload: any = {
         clinic_id,
         doctor_id,
         date: form.date ?? date,
