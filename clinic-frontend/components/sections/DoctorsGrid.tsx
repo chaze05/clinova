@@ -1,5 +1,5 @@
 export default function DoctorsGrid({ clinic }: any) {
-    const {name,email,image,doctor_id} = clinic.doctor;
+    const {name,email,image,photo} = clinic.doctor;
     console.log('here',{clinic});
     return (
         <section id="doctors" className="py-10 px-6 bg-gray-100">
@@ -14,7 +14,7 @@ export default function DoctorsGrid({ clinic }: any) {
 
                 {/* LEFT: IMAGE 50% */}
                 <div className="md:w-1/2 w-full bg-gray-100 flex items-center justify-center overflow-hidden rounded-l-2xl">
-                    {image ? (
+                    {photo ? (
                     <img
                         src={image}
                         alt={name}

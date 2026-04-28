@@ -3,7 +3,7 @@
 namespace App\Models;
 use App\Models\Permission;
 use App\Models\Patient;
-use App\Models\User;
+use App\Models\Clinic;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
