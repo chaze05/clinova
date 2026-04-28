@@ -49,9 +49,9 @@ export default function BookingForm({
 
   const [openPatientModal, setOpenPatientModal] = useState(false);
   const [newPatient, setNewPatient] = useState({
-    name: "",
-    email: "",
-    mobile: "",
+    patientName: "",
+    patientEmail: "",
+    patientMobile: "",
   });
   
 
@@ -684,7 +684,7 @@ export default function BookingForm({
             <input
               placeholder="Name"
               onChange={(e) =>
-                setNewPatient({ ...newPatient, name: e.target.value })
+                setNewPatient({ ...newPatient, patientName: e.target.value })
               }
               className="w-full border p-2 rounded"
             />
@@ -692,7 +692,7 @@ export default function BookingForm({
             <input
               placeholder="Email"
               onChange={(e) =>
-                setNewPatient({ ...newPatient, email: e.target.value })
+                setNewPatient({ ...newPatient, patientEmail: e.target.value })
               }
               className="w-full border p-2 rounded"
             />
@@ -700,7 +700,7 @@ export default function BookingForm({
             <input
               placeholder="Mobile"
               onChange={(e) =>
-                setNewPatient({ ...newPatient, mobile: e.target.value })
+                setNewPatient({ ...newPatient, patientMobile: e.target.value })
               }
               className="w-full border p-2 rounded"
             />
