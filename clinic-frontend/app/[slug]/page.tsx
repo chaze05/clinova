@@ -22,19 +22,21 @@
 import { notFound } from "next/navigation";
 
 import { getClinic } from "@/lib/auth";
-import api from "@/lib/api";
+import api, { publicApi } from "@/lib/api";
 import axios from "axios";
-import { clinicThemes } from "@/lib/theme";
+import { getClinicTheme } from "@/lib/theme";
 import { templates } from "@/lib/template";
 
 export default async function ClinicPage({ params }: any) {
   const {slug} = await params;
 
-  const clinic = await getClinic(slug);
+
+  const res = await publicApi.get(`/api/public/${slug}`);
+  const clinic = res.data;
 
   if (!clinic) return notFound();
 
-  const theme = clinicThemes[clinic?.theme || "green"];
+  const theme = getClinicTheme(clinic.theme);
   const Template = templates[clinic.layout_template || "modern"];
 
   return (

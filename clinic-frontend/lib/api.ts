@@ -35,6 +35,10 @@ api.interceptors.request.use((config) => {
 
 export default api;
 
+
+export const publicApi = axios.create({
+  baseURL: process.env.NEXT_PUBLIC_API_UR || "http://localhost:8000",
+});
 // import axios from "axios";
 
 // const api = axios.create({
