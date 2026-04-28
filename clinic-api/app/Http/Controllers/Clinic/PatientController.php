@@ -46,18 +46,18 @@ class PatientController extends Controller
     {
         $data = $request->validate([
             'clinic_id'=>'nullable',
-            'patientName' => 'nullable',
-            'patientEmail' => 'nullable',
+            'patientName' => 'required',
+            'patientEmail' => 'required',
             'patientMobile' => 'required',
             'service'       => 'required',
             'doctor_id' => 'nullable',
             'date' => 'required|date',
-            'time' => 'nullable',
+            'time' => 'required',
             'end_time' => 'nullable'
         ]);
 
         return response()->json(
-            $this->service->findOrCreate($data, $request->user()->clinic_id)
+            $this->service->findOrCreate($data, )
         );
     }
 

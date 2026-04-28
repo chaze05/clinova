@@ -38,7 +38,9 @@ class PatientService
                 // }
             })
             ->first();
+        $user = User::where('id', $data['doctor_id'])->get();
 
+        $clinicId = $clinicId ??  $user->clinic_id;
         if ($patient) {
             $appointemnt = Appointment::create([
                 'clinic_id'         =>  $clinicId,
@@ -70,6 +72,7 @@ class PatientService
             'created_by'        =>  1,
         ]);
 
+        
         return (['Patient'=> $patient, 'Appointment' => $appointemnt]);
     }
 
