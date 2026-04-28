@@ -15,7 +15,7 @@ class ClinicServicesManager
     public function getAll($clinicId)
     {
     return Service::query()
-        ->leftJoin('clinic_service as cs', function ($join) use ($clinicId) {
+        ->leftJoin('clinic_services as cs', function ($join) use ($clinicId) {
             $join->on('services.id', '=', 'cs.service_id')
                 ->where('cs.clinic_id', $clinicId);
         })

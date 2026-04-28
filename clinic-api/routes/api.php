@@ -63,4 +63,4 @@ Route::get('/public/{slug}', [ClinicController::class, 'show']);
 Route::post('/public/book', [PatientController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
     return $request->user();
-});
+}); 
