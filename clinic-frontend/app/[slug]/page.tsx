@@ -23,7 +23,7 @@ import { getClinicTheme } from "@/lib/theme";
 import { templates } from "@/lib/template";
 
 export default async function ClinicPage({ params }: any) {
-  const { slug } = params;
+  const { slug } = await params;
 
   const res = await fetch(
     `https://clinova.onrender.com/api/public/${slug}`,
