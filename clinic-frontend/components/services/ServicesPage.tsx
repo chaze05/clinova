@@ -51,7 +51,7 @@ export default function ServicesPage(clinic:any) {
     const [selectedService, setSelectedService] = useState<any | null>(null);
     const [modalOpen, setModalOpen] = useState(false);
     const [open,setOpen] = useState(false);
-    const [mode,setMode] = useState<string>('edit ');
+    const [mode,setMode] = useState<'request' | 'edit'>('edit');
 
     const handleToggle = (service: any) => {
         if (!service.is_active) {

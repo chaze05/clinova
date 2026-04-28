@@ -8,10 +8,11 @@ export default function TimeDropdown({
   classes:string;
 }) {
   // generate 30-min slots
-  const handleChange = (e) => {
+  const handleChange = (e:React.ChangeEvent<HTMLSelectElement>) => {
     const timeValue = e.target.value;
     onChange(timeValue);
   }
+  
   const timeSlots = useMemo(() => {
     const slots: string[] = [];
 

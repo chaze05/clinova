@@ -36,7 +36,7 @@ export default function BookingForm({
 
   const [error, setError] = useState<Record<string, string>>({});
 
-  const dateRef = useRef<HTMLInputElement | null>();
+  const dateRef = useRef<HTMLInputElement | null>(date);
   const { services } = clinicData;
   const [attachment, setAttachment] = useState<File | null>(null);
   const { id: clinic_id } = clinicData.clinic;
@@ -532,7 +532,7 @@ export default function BookingForm({
           <div className="w-full">
             <p className="text-left">Time</p>
             <TimeDropdown
-              onChange={(val) => handleChange("time", val)}
+              onChange={(val:string) => handleChange("time", val)}
               classes={error.time ? "border-red-300" : ""}
             />
             {/* ❗ RESTORED ERROR */}

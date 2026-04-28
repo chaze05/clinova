@@ -5,17 +5,27 @@ import api from "@/lib/api";
 import { patientSchema } from "@/validations/clinic";
 
 interface Patient {
+  id:number,
   patientName: string;
   patientMobile:string;
   patientEmail:string;
   status:number;
+  lastVisit:string;
 }
 
+const emptyPatient: Patient = {
+  id: 0,
+  patientName: "",
+  patientMobile: "",
+  patientEmail: "",
+  status: 1,
+  lastVisit:'',
+};
 type EditPatientFormProps = {
-  patient: Patient;
+  patient?: Patient | null;
   onSaveSuccess?: (data: Patient) => void;
   onCancel: () => void;
-  mode:any
+  mode:'add'|'update';
 };
 
 export function PatientForm({
@@ -25,12 +35,12 @@ export function PatientForm({
   onCancel,
 }: EditPatientFormProps) {
 
-  const [form, setForm] = useState<Patient>(patient);
+  const [form, setForm] = useState<Patient>(patient ?? emptyPatient);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    setForm(patient);
+    setForm(patient ?? emptyPatient);
   }, [patient]);
 
   const handleChange = (key: keyof Patient, value: string) => {

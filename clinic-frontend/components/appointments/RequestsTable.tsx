@@ -97,7 +97,6 @@ export default function RequestsTable() {
       toast.success(`Appointment request cancelled!.`);
     } catch (err) {
       console.error(err);
-
       // optional rollback if failed
       fetchRequests(tab);
     }

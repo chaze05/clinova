@@ -17,7 +17,7 @@ export default function ClinicData(){
 
     useEffect(() => {
         if (!token) return;
-        getClinicList(token)
+        getClinicList()
         .then((data) => setClinics(data))
         .catch((err) => console.error(err));
     }, [token]);
@@ -72,8 +72,8 @@ export default function ClinicData(){
             </h2>
 
             <div className="grid md:grid-cols-3 gap-5">
-            {clinics.map((clinic) => (
-                <ClinicCard key={clinic.id} clinic={clinic} />
+            {clinics.map((clinic,i) => (
+                <ClinicCard key={i} clinic={clinic} />
             ))}
             </div>
         </div>
@@ -122,7 +122,7 @@ function StatusBadge({
   );
 }
 
-function ClinicCard({ clinic }: { clinic:Clinic}) {
+function ClinicCard({ clinic }: { clinic:any}) {
   return (
     <div className="backdrop-blur-xl bg-white/60 border border-white/40 shadow-lg rounded-2xl p-5 hover:shadow-xl transition">
 

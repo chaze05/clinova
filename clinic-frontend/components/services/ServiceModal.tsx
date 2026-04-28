@@ -9,7 +9,7 @@ export default function ServiceModal({
     onSave,
 }: {
     service?: any;
-    mode?: "edit" | "request" | undefined;
+    mode?: "edit" | "request";
     onClose: () => void;
     onSave: (data: any) => void;
 }) {

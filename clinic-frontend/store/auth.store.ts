@@ -84,11 +84,14 @@
 
 import { create } from "zustand";
 
-interface AuthState {
+interface  AuthState {
   user: any | null;
   hydrated: boolean;
+  token:string|null;
+  setToken: (token: string | null) => void;
   setUser: (user: any | null) => void;
   setHydrated: (value: boolean) => void;
+  clear:() => void;
   logout: () => void;
 }
 
@@ -96,6 +99,7 @@ export const useAuthStore = create<AuthState>((set) => ({
   user: null,
   token: null,
   hydrated: false,
+  
 
   setUser: (user) => set({ user }),
   setToken: (token) => set({ token }),
@@ -107,5 +111,10 @@ export const useAuthStore = create<AuthState>((set) => ({
       token: null,
       hydrated: false,
     }),
-  logout: () => set({ user: null }),
+  logout: () =>
+    set({
+      user: null,
+      token: null,
+      hydrated: false,
+    }),
 }));

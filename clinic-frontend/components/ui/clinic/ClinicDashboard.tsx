@@ -749,6 +749,8 @@ export default function ClinicDashboard() {
     [clinic]
   );
 
+  
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 p-2 sm:p-4">
 
@@ -872,14 +874,14 @@ export default function ClinicDashboard() {
 
                     <div className="flex gap-2">
                       <button
-                        onClick={() => handleApprove(req.id)}
+                        onClick={() => {}}
                         className="p-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100"
                       >
                         <Check size={18} />
                       </button>
 
                       <button
-                        onClick={() => handleReject(req.id)}
+                        onClick={() => {}}
                         className="p-2 rounded-lg bg-red-50 text-red-600 hover:bg-red-100"
                       >
                         <X size={18} />

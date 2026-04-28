@@ -14,17 +14,9 @@ type Patient = {
   patientName: string;
   patientEmail: string;
   patientMobile: string;
-  status: "1" | "0";
+  status: number,
   lastVisit: string;
 };
-
-const mockPatients: Patient[] = [
-  { id: 1, name: "Juan Dela Cruz", email: "juan@email.com", phone: "09171234567", status: "active", lastVisit: "2026-04-20" },
-  { id: 2, name: "Maria Santos", email: "maria@email.com", phone: "09179876543", status: "active", lastVisit: "2026-04-18" },
-  { id: 3, name: "Pedro Reyes", email: "pedro@email.com", phone: "09175551234", status: "inactive", lastVisit: "2026-03-30" },
-  { id: 4, name: "Ana Lopez", email: "ana@email.com", phone: "09172223333", status: "active", lastVisit: "2026-04-10" },
-  { id: 5, name: "Luis Garcia", email: "luis@email.com", phone: "09171112222", status: "inactive", lastVisit: "2026-03-25" },
-];
 
 const PAGE_SIZE = 5;
 const defaultPatient: Patient = {
@@ -32,15 +24,15 @@ const defaultPatient: Patient = {
     patientName: "",
     patientMobile: "",
     patientEmail: "",
-    status: "1",
+    status: 1,
     lastVisit:''
 };
 export default function PatientsPage() {
     const [search, setSearch] = useState("");
     const [open,setOpen] = useState(false);
 
-    const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null);
-    const [patients, setPatients] = useState<Patient[]>(null);
+    const [selectedPatient, setSelectedPatient] = useState<Patient | null>(defaultPatient);
+    const [patients, setPatients] = useState<Patient[]>([]);
     const [loading,setLoading]  = useState(false);
     const [page, setPage] = useState(1);
     const [mode, setMode] = useState<"add" | "update">("add");
@@ -69,9 +61,9 @@ export default function PatientsPage() {
         fetchPatients();
     }, [])
 
-    const handleSavePatient = (updated: Patient) => {
+    const handleSavePatient = (data: Patient) => {
         setPatients((prev) =>
-            prev.map((p) => (p.id === updated.id ? updated : p))
+            prev.map((p) => (p.id === data.id ? data : p))
         );
 
         setOpen(false);
