@@ -87,10 +87,10 @@
   ),
   'app' => 
   array (
-    'name' => 'Laravel',
-    'env' => 'local',
-    'debug' => true,
-    'url' => 'http://localhost:8000',
+    'name' => 'CLINOVA',
+    'env' => 'production',
+    'debug' => false,
+    'url' => 'https://clinova.onrender.com',
     'frontend_url' => 'http://localhost:3000',
     'asset_url' => NULL,
     'timezone' => 'UTC',
@@ -304,7 +304,7 @@
         ),
       ),
     ),
-    'prefix' => 'laravel-cache-',
+    'prefix' => 'clinova-cache-',
   ),
   'cors' => 
   array (
@@ -324,6 +324,7 @@
     'allowed_origins' => 
     array (
       0 => 'http://localhost:3001',
+      1 => 'https://clinova-omega.vercel.app',
     ),
     'allowed_origins_patterns' => 
     array (
@@ -435,7 +436,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => 'laravel-database-',
+        'prefix' => 'clinova-database-',
         'persistent' => false,
       ),
       'default' => 
@@ -483,7 +484,7 @@
       array (
         'driver' => 'local',
         'root' => 'C:\\DBMS\\clinic-api\\storage\\app/public',
-        'url' => 'http://localhost:8000/storage',
+        'url' => 'https://clinova.onrender.com/storage',
         'visibility' => 'public',
         'throw' => false,
         'report' => false,
@@ -545,7 +546,7 @@
       array (
         'driver' => 'slack',
         'url' => NULL,
-        'username' => 'Laravel',
+        'username' => 'CLINOVA',
         'emoji' => ':boom:',
         'level' => 'debug',
         'replace_placeholders' => true,
@@ -620,7 +621,7 @@
         'username' => NULL,
         'password' => NULL,
         'timeout' => NULL,
-        'local_domain' => 'localhost',
+        'local_domain' => 'clinova.onrender.com',
       ),
       'ses' => 
       array (
@@ -672,7 +673,7 @@
     'from' => 
     array (
       'address' => 'hello@example.com',
-      'name' => 'Laravel',
+      'name' => 'CLINOVA',
     ),
     'markdown' => 
     array (
@@ -707,7 +708,7 @@
   ),
   'queue' => 
   array (
-    'default' => 'sync',
+    'default' => 'database',
     'connections' => 
     array (
       'sync' => 
@@ -786,7 +787,7 @@
   array (
     'stateful' => 
     array (
-      0 => 'localhost:3001',
+      0 => 'clinova-omega.vercel.app',
     ),
     'guard' => 
     array (
@@ -828,7 +829,7 @@
   ),
   'session' => 
   array (
-    'driver' => 'file',
+    'driver' => 'database',
     'lifetime' => 120,
     'expire_on_close' => false,
     'encrypt' => false,
@@ -841,9 +842,9 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => 'laravel_session',
+    'cookie' => 'clinova_session',
     'path' => '/',
-    'domain' => 'localhost',
+    'domain' => '.onrender.com',
     'secure' => false,
     'http_only' => true,
     'same_site' => 'lax',
