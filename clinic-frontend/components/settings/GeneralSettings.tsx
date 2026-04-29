@@ -1,274 +1,276 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Switch } from "@/components/ui/switch";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import api from "@/lib/api";
 
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Switch } from "@/components/ui/switch";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+/* ---------------- TYPES ---------------- */
+
+type ClinicDetails = {
+  name: string;
+  description: string;
+  address: string;
+  contact_email: string;
+  contact_phone: string;
+  website: string;
+  facebook_url: string;
+  instagram_url: string;
+  x_url: string;
+};
+
+type ClinicSettings = {
+  allow_online_booking: boolean;
+  auto_approve_appointments: boolean; // ✅ FIXED TYPO
+  appointment_slot_duration: number;
+
+  max_appointments_per_day: number; // ✅ MOVED HERE
+
+  enable_email_notifications: boolean;
+  enable_sms_notifications: boolean;
+
+  require_approval_for_appointments: boolean;
+  allow_walk_in: boolean;
+
+  timezone: string;
+
+  theme_color: "blue" | "green" | "purple";
+  template: "modern" | "minimal" | "medical";
+};
+
+/* ---------------- COMPONENT ---------------- */
+
 export default function GeneralSettings() {
-  const [loading, setLoading] = useState(false);
-
-  const [form, setForm] = useState({
-    description: "",
-    address: "",
-    contact_email: "",
-    contact_phone: "",
-    logo: "",
-
-    primary_color: "#16a34a",
-    secondary_color: "#0f172a",
-    theme: "green",
-    template_key: "modern",
-
-    booking_enabled: true,
-    auto_confirm_appointments: false,
-    max_appointments_per_slot: 1,
-    buffer_minutes: 10,
-
-    email_notifications: true,
-    sms_notifications: false,
-
-    notify_patient_on_booking: true,
-    notify_clinic_on_booking: true,
-    notify_before_appointment: true,
-    reminder_hours_before: 24,
-
-    allow_walk_ins: true,
-    require_patient_approval: false,
-    same_day_booking: true,
-  });
-
-  const handleChange = (key: string, value: any) => {
-    setForm((prev) => ({ ...prev, [key]: value }));
-  };
+  const [details, setDetails] = useState<ClinicDetails | null>(null);
+  const [settings, setSettings] = useState<ClinicSettings | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const load = async () => {
-      try {
-        const res = await api.get("/settings");
-        setForm(res.data);
-      } catch (e) {
-        console.error(e);
-      }
+    const fetchData = async () => {
+      const res = await api.get("/api/settings");
+      setDetails(res.data[0].clinic_details) ;
+      setSettings(res.data[0].clinic_settings);
+
+      setLoading(false);
     };
-    load();
+
+    fetchData();
   }, []);
 
-  const handleSave = async () => {
-    setLoading(true);
-    try {
-      await api.post("/settings", form);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+  /* ---------------- UPDATE HELPERS ---------------- */
+
+  const updateDetails = (key: keyof ClinicDetails, value: any) => {
+    if (!details) return;
+    setDetails({ ...details, [key]: value });
   };
 
+  const updateSettings = (key: keyof ClinicSettings, value: any) => {
+    if (!settings) return;
+    setSettings({ ...settings, [key]: value });
+  };
+
+  const saveAll = async () => {
+    console.log([details,settings]);
+    return;
+    await api.put("/api/settings", {
+      details,
+      settings,
+    });
+
+    alert("Settings updated successfully!");
+  };
+  console.log({settings});
+  if (loading) return <p>Loading settings...</p>;
   return (
-    <div className="p-6 space-y-6">
-      {/* Branding */}
-      <Card className="rounded-2xl shadow">
-        <CardContent className="p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Branding</h2>
+    <div className="grid gap-6">
+        <div className="flex flex-wrap sm:flex-nowrap gap-6">
+        {/* 🏥 CLINIC DETAILS */}
+            <Card>
+                <CardContent className="p-6 space-y-4">
+                <h2 className="text-lg font-semibold">Clinic Details</h2>
 
-          <Textarea
-            placeholder="Clinic Description"
-            value={form.description}
-            onChange={(e) => handleChange("description", e.target.value)}
-          />
+                <div>
+                    <Label>Name</Label>
+                    <Input
+                    value={details?.name || ""}
+                    onChange={(e) => updateDetails("name", e.target.value)}
+                    />
+                </div>
 
-          <Input
-            placeholder="Address"
-            value={form.address}
-            onChange={(e) => handleChange("address", e.target.value)}
-          />
+                <div>
+                    <Label>Address</Label>
+                    <Textarea
+                    value={details?.address || ""}
+                    onChange={(e) => updateDetails("address", e.target.value)}
+                    />
+                </div>
 
-          <Input
-            placeholder="Email"
-            value={form.contact_email}
-            onChange={(e) => handleChange("contact_email", e.target.value)}
-          />
+                <div>
+                    <Label>Description</Label>
+                    <Textarea
+                    value={details?.description || ""}
+                    onChange={(e) => updateDetails("description", e.target.value)}
+                    />
+                </div>
 
-          <Input
-            placeholder="Phone"
-            value={form.contact_phone}
-            onChange={(e) => handleChange("contact_phone", e.target.value)}
-          />
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                    <Label>Email</Label>
+                    <Input
+                        value={details?.contact_email || ""}
+                        onChange={(e) =>
+                        updateDetails("contact_email", e.target.value)
+                        }
+                    />
+                    </div>
+                    <div>
+                    <Label>Phone</Label>
+                    <Input
+                        value={details?.contact_phone || ""}
+                        onChange={(e) =>
+                        updateDetails("contact_phone", e.target.value)
+                        }
+                    />
+                    </div>
+                </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>Primary Color</Label>
-              <Input
-                type="color"
-                value={form.primary_color}
-                onChange={(e) => handleChange("primary_color", e.target.value)}
-              />
-            </div>
+                <div>
+                    <Label>Facebook</Label>
+                    <Input
+                    value={details?.facebook_url || ""}
+                    onChange={(e) =>
+                        updateDetails("facebook_url", e.target.value)
+                    }
+                    />
+                </div>
 
-            <div>
-              <Label>Secondary Color</Label>
-              <Input
-                type="color"
-                value={form.secondary_color}
-                onChange={(e) => handleChange("secondary_color", e.target.value)}
-              />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+                <div>
+                    <Label>Instagram</Label>
+                    <Input
+                    value={details?.instagram_url || ""}
+                    onChange={(e) =>
+                        updateDetails("instagram_url", e.target.value)
+                    }
+                    />
+                </div>
 
-      {/* Booking */}
-      <Card className="rounded-2xl shadow">
-        <CardContent className="p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Booking Settings</h2>
+                <div>
+                    <Label>X (Twitter)</Label>
+                    <Input
+                    value={details?.x_url || ""}
+                    onChange={(e) => updateDetails("x_url", e.target.value)}
+                    />
+                </div>
+                </CardContent>
+            </Card>
 
-          <div className="flex justify-between">
-            <Label>Enable Booking</Label>
-            <Switch
-              checked={form.booking_enabled}
-              onCheckedChange={(v) => handleChange("booking_enabled", v)}
-            />
-          </div>
+            {/* ⚙️ SYSTEM SETTINGS */}
+            <Card>
+                <CardContent className="p-6 space-y-5">
+                <h2 className="text-lg font-semibold">Clinic Settings</h2>
 
-          <div className="flex justify-between">
-            <Label>Auto Confirm</Label>
-            <Switch
-              checked={form.auto_confirm_appointments}
-              onCheckedChange={(v) =>
-                handleChange("auto_confirm_appointments", v)
-              }
-            />
-          </div>
+                {/* Theme */}
+                <div>
+                    <Label>Theme Color</Label>
+                    <select
+                    className="w-full border rounded p-2"
+                    value={settings?.theme_color}
+                    onChange={(e) =>
+                        updateSettings("theme_color", e.target.value)
+                    }
+                    >
+                    <option value="blue">Blue (Default)</option>
+                    <option value="green">Green</option>
+                    <option value="purple">Purple</option>
+                    </select>
+                </div>
 
-          <Input
-            type="number"
-            placeholder="Max per slot"
-            value={form.max_appointments_per_slot}
-            onChange={(e) =>
-              handleChange("max_appointments_per_slot", Number(e.target.value))
-            }
-          />
+                {/* Template */}
+                <div>
+                    <Label>Template SOON!</Label>
+                    <select
+                    disabled={true}
+                    className="w-full border rounded p-2"
+                    value={settings?.template}
+                    onChange={(e) =>
+                        updateSettings("template", e.target.value)
+                    }
+                    >
+                    <option value="modern">Modern</option>
+                    <option value="minimal">Minimal</option>
+                    <option value="medical">Medical</option>
+                    </select>
+                </div>
 
-          <Input
-            type="number"
-            placeholder="Buffer Minutes"
-            value={form.buffer_minutes}
-            onChange={(e) =>
-              handleChange("buffer_minutes", Number(e.target.value))
-            }
-          />
-        </CardContent>
-      </Card>
+                {/* 📅 LIMIT PER DAY (FIXED LOCATION) */}
+                <div>
+                    <Label>Maximum Appointments Per Day</Label>
+                    <Input
+                    type="number"
+                    value={settings?.max_appointments_per_day || 10}
+                    onChange={(e) =>
+                        updateSettings(
+                        "max_appointments_per_day",
+                        Number(e.target.value)
+                        )
+                    }
+                    />
+                </div>
 
-      {/* Notifications */}
-      <Card className="rounded-2xl shadow">
-        <CardContent className="p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Notifications</h2>
+                {/* Toggles */}
+                <div className="flex items-center justify-between">
+                    <Label>Online Booking</Label>
+                    <Switch
+                    checked={settings?.allow_online_booking}
+                    onCheckedChange={(val) =>
+                        updateSettings("allow_online_booking", val)
+                    }
+                    />
+                </div>
 
-          <div className="flex justify-between">
-            <Label>Email Notifications</Label>
-            <Switch
-              checked={form.email_notifications}
-              onCheckedChange={(v) => handleChange("email_notifications", v)}
-            />
-          </div>
+                <div className="flex items-center justify-between">
+                    <Label>Auto Approve Appointments</Label>
+                    <Switch
+                    checked={settings?.auto_approve_appointments}
+                    onCheckedChange={(val) =>
+                        updateSettings("auto_approve_appointments", val)
+                    }
+                    />
+                </div>
 
-          <div className="flex justify-between">
-            <Label>SMS Notifications</Label>
-            <Switch
-              checked={form.sms_notifications}
-              onCheckedChange={(v) => handleChange("sms_notifications", v)}
-            />
-          </div>
+                <div className="flex items-center justify-between">
+                    <Label>Email Notifications</Label>
+                    <Switch
+                    checked={settings?.enable_email_notifications}
+                    onCheckedChange={(val) =>
+                        updateSettings("enable_email_notifications", val)
+                    }
+                    />
+                </div>
 
-          <div className="flex justify-between">
-            <Label>Notify Patient</Label>
-            <Switch
-              checked={form.notify_patient_on_booking}
-              onCheckedChange={(v) =>
-                handleChange("notify_patient_on_booking", v)
-              }
-            />
-          </div>
-
-          <div className="flex justify-between">
-            <Label>Notify Clinic</Label>
-            <Switch
-              checked={form.notify_clinic_on_booking}
-              onCheckedChange={(v) =>
-                handleChange("notify_clinic_on_booking", v)
-              }
-            />
-          </div>
-
-          <div className="flex justify-between">
-            <Label>Reminder Before Appointment</Label>
-            <Switch
-              checked={form.notify_before_appointment}
-              onCheckedChange={(v) =>
-                handleChange("notify_before_appointment", v)
-              }
-            />
-          </div>
-
-          <Input
-            type="number"
-            placeholder="Reminder Hours Before"
-            value={form.reminder_hours_before}
-            onChange={(e) =>
-              handleChange("reminder_hours_before", Number(e.target.value))
-            }
-          />
-        </CardContent>
-      </Card>
-
-      {/* Behavior */}
-      <Card className="rounded-2xl shadow">
-        <CardContent className="p-6 space-y-4">
-          <h2 className="text-lg font-semibold">Clinic Behavior</h2>
-
-          <div className="flex justify-between">
-            <Label>Allow Walk-ins</Label>
-            <Switch
-              checked={form.allow_walk_ins}
-              onCheckedChange={(v) => handleChange("allow_walk_ins", v)}
-            />
-          </div>
-
-          <div className="flex justify-between">
-            <Label>Require Approval</Label>
-            <Switch
-              checked={form.require_patient_approval}
-              onCheckedChange={(v) =>
-                handleChange("require_patient_approval", v)
-              }
-            />
-          </div>
-
-          <div className="flex justify-between">
-            <Label>Same Day Booking</Label>
-            <Switch
-              checked={form.same_day_booking}
-              onCheckedChange={(v) => handleChange("same_day_booking", v)}
-            />
-          </div>
-        </CardContent>
-      </Card>
-
-      <div className="flex justify-end">
-        <Button
-          onClick={handleSave}
-          disabled={loading}
-          className="rounded-xl bg-green-600 hover:bg-green-700"
-        >
-          {loading ? "Saving..." : "Save Settings"}
-        </Button>
-      </div>
+                <div className="flex items-center justify-between">
+                    <Label>SMS Notifications</Label>
+                    <span className="text-xs text-gray-400 ml-2">SOON</span>
+                    <Switch
+                    disabled
+                    checked={settings?.enable_sms_notifications}
+                    onCheckedChange={(val) =>
+                        updateSettings("enable_sms_notifications", val)
+                    }
+                    />
+                </div>
+                </CardContent>
+            </Card>
+        </div>
+      {/* 💾 SAVE */}
+      <Button onClick={saveAll} className="w-full sm:w-1/2 py-5 cursor-pointer">
+        Save Settings   
+      </Button>
     </div>
   );
 }

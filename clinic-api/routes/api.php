@@ -7,6 +7,7 @@ use App\Http\Controllers\Clinic\ClinicController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Clinic\PatientController;
 use App\Http\Controllers\Clinic\ClinicServicesController;
+use App\Http\Controllers\Clinic\SettingsController;
 use Illuminate\Http\Request;
 
 Route::prefix('auth')->group(function () {
@@ -56,10 +57,14 @@ Route::middleware(['auth:sanctum', 'clinic'])->group(function () {
     Route::get('/services/{id}', [ClinicServicesController::class, 'getServices']);
     Route::get('/services/enable/{id}', [ClinicServicesController::class, 'enableService']);
     Route::post('/clinic/services/toggle', [ClinicServicesController::class, 'toggle']);
+
+    // SETTINGS ROUTES
+    Route::get('/settings', [SettingsController::class, 'index']);
+    Route::put('/settings', [SettingsController::class, 'update']);
 });
 
 // CLINC PUBLIC ROUTE
-Route::get('/public/{slug}', [ClinicController::class, 'show']);
+Route::get('/public/{slug}', [ClinicController::class, 'showPublic']);
 Route::post('/public/book', [PatientController::class, 'store']);
 Route::middleware('auth:sanctum')->get('/me', function (Request $request) {
     return $request->user();

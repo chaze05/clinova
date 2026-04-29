@@ -6,14 +6,17 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Patient;
 use App\Services\PatientService;
+use App\Services\UserService;
 
 class PatientController extends Controller
 {
     protected $service;
+    protected $user;
     
     public function __construct()
     {
         $this->service = new PatientService(); // ❌ or missing entirely
+        $this->user  = new UserService(); // ❌ or missing entirely
     }
     /**
      * CREATE PATIENT
@@ -55,9 +58,9 @@ class PatientController extends Controller
             'time' => 'required',
             'end_time' => 'nullable'
         ]);
-
+        $clinicID = $this->user->getClinicID($data['doctor_id']);
         return response()->json(
-            $this->service->findOrCreate($data, )
+            $this->service->findOrCreate($data, $request->user()->clinic_id ?? $clinicID)
         );
     }
 

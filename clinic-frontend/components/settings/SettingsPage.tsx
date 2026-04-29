@@ -125,7 +125,7 @@ export default function SettingsPage() {
                 : "text-gray-500 hover:text-black"
             }`}
             >
-            Profile
+            Doctor
             </button>
 
             {/* Reports (PRO) */}
@@ -152,7 +152,7 @@ export default function SettingsPage() {
                 : "text-gray-500 hover:text-black"
             }`}
             >
-            General Settings
+            Clinic
             </button>
 
         </div>

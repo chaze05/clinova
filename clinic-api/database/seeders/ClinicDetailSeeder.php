@@ -56,7 +56,7 @@ class ClinicDetailSeeder extends Seeder
             'logo' => null,
 
             // Contact
-            'address' => 'Quezon City, Philippines',
+            'address' => 'Pilar Bataan, Philippines',
             'contact_email' => 'clinic@clinova.local',
             'contact_phone' => '+63 900 000 0000',
 

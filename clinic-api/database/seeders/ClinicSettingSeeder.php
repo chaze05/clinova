@@ -21,7 +21,8 @@ class ClinicSettingSeeder extends Seeder
             'enable_sms_notifications' => false,
 
             // Business rules   
-            'require_approval_for_appointments' => false,
+            'auto_approve_appointments' => false,
+            'max_appointments_per_day' => 20,
             'allow_walk_in' => true,
 
             // System

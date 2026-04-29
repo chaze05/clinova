@@ -54,7 +54,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="bg-gray-50 min-h-screen">
       {/* HEADER */}
       <div className="grid md:grid-cols-3 gap-6">
 

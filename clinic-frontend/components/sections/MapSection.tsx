@@ -1,12 +1,18 @@
+import { Share2, AtSign, X } from "lucide-react";
+
 export default function MapSection({ clinic,theme }: any) {
   // fallback dummy data
   const data = {
-    address: clinic?.address || "123 Medical Street, Quezon City, Philippines",
-    phone: clinic?.phone || "+63 900 000 0000",
-    email: clinic?.email || "clinic@example.com",
+    address: clinic?.clinic_details.address || "123 Medical Street, Quezon City, Philippines",
+    phone: clinic?.clinic_details.contact_phone || "+63 900 000 0000",
+    email: clinic?.clinic_details.contact_email || "clinic@example.com",
     map:
       clinic?.map_embed_url ||
       "https://www.google.com/maps?q=Quezon+City&output=embed",
+    fb:clinic?.clinic_details.facebook_url,
+    insta:clinic?.clinic_details.instagram_url,
+    x:clinic?.clinic_details.twittter_url,
+
   };
 
   return (
@@ -53,9 +59,14 @@ export default function MapSection({ clinic,theme }: any) {
 
             <div>
               <p className="text-gray-400 text-xs uppercase">Email</p>
-              <p className="mt-1">{data.email}</p>
+              <p className="mt-1">{data.email} asd</p>
             </div>
 
+            <div className="flex gap-4">
+              <a href={`${data?.fb}`}><Share2 color="#E4405F" size={24} /></a>
+              <a href={`${data?.insta}`}><X color="#1DA1F2" size={24} /></a>
+              <a href={`${data?.x}`}><AtSign color="#1877F2" size={24} /></a>
+            </div>
           </div>
 
           {/* CTA feel (optional but subtle) */}

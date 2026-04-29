@@ -75,6 +75,7 @@ namespace App\Services;
 
 use App\Models\Clinic;
 use App\Models\ClinicDetail;
+use App\Models\ClinicSettings;
 use App\Models\Patient;
 use App\Models\Appointment;
 use App\Models\Service;
@@ -124,51 +125,58 @@ class ClinicService
             // 2. CREATE DEFAULT CLINIC SETTINGS
             ClinicDetail::create([
                 'clinic_id' => $clinic->id,
-
+                'name' => '' . $clinic->name,
                 'description' => 'Welcome to ' . $clinic->name,
+                'address' => null,
                 'contact_email' => null,
                 'contact_phone' => null,
                 'logo' => null,
+                'website' => null,
+                'facebook_url' => null,
+                'instagram_url' => null,
+                'x_url' => null,
+            ]);
+            ClinicSettings::create([
+                'clinic_id' => 1,
 
-                'primary_color' => '#16a34a',
-                'secondary_color' => '#0f172a',
-                'template_key' => 'centered_hero',
+                // Scheduling
+                'allow_online_booking' => true,
+                'appointment_slot_duration' => 30,
 
-                'booking_enabled' => true,
-                'auto_confirm_appointments' => false,
-                'max_appointments_per_slot' => 1,
-                'buffer_minutes' => 10,
+                // Notifications
+                'enable_email_notifications' => true,
+                'enable_sms_notifications' => false,
 
-                'email_notifications' => true,
-                'sms_notifications' => false,
+                // Business rules   
+                'require_approval_for_appointments' => false,
+                'max_appointments_per_day' => 20,
+                'allow_walk_in' => true,
 
-                'notify_patient_on_booking' => true,
-                'notify_clinic_on_booking' => true,
+                // System
+                'timezone' => 'Asia/Manila',
 
-                'notify_before_appointment' => true,
-                'reminder_hours_before' => 24,
-
-                'allow_walk_ins' => true,
-                'require_patient_approval' => false,
-                'same_day_booking' => true,
+                // 🎨 UI THEME
+                'theme_color' => 'blue',      // default: blue
+                'template' => 'modern',       // default: modern
+                'layout' => 'template_a',     // default: template A
             ]);
 
-            // 3. SEED DEFAULT SERVICES
-            $defaultServices = [
-                ['name' => 'General Consultation', 'price' => 500],
-                ['name' => 'Dental Cleaning', 'price' => 1200],
-                ['name' => 'Laboratory Test', 'price' => 1500],
-            ];
+            // // 3. SEED DEFAULT SERVICES
+            // $defaultServices = [
+            //     ['name' => 'General Consultation', 'price' => 500],
+            //     ['name' => 'Dental Cleaning', 'price' => 1200],
+            //     ['name' => 'Laboratory Test', 'price' => 1500],
+            // ];
 
-            foreach ($defaultServices as $service) {
-                Service::create([
-                    'clinic_id' => $clinic->id,
-                    'name' => $service['name'],
-                    'price' => $service['price'],
-                    'duration_minutes' => 30,
-                    'is_active' => true,
-                ]);
-            }
+            // foreach ($defaultServices as $service) {
+            //     Service::create([
+            //         'clinic_id' => $clinic->id,
+            //         'name' => $service['name'],
+            //         'price' => $service['price'],
+            //         'duration_minutes' => 30,
+            //         'is_active' => true,
+            //     ]);
+            // }
 
             // 4. CREATE DOCTOR
             $doctor = User::create([
@@ -308,6 +316,47 @@ class ClinicService
             'upcomingAppointments' => $upcomingAppointments,
             'clinic_details' => $clinicDetails,
             'appointmentsToday' => $appointmentsToday,
+        ];
+    }
+
+    public function getDashboardPublic($clinicID)
+    {
+
+          // 1. If numeric → treat as ID
+        if (is_numeric($clinicID)) {
+            $clinic = Clinic::findOrFail($clinicID);
+        }
+        // 2. Otherwise → treat as slug
+        else {
+            $clinic = Clinic::where('slug', $clinicID)->firstOrFail();
+        }
+
+        // now you ALWAYS have clinic model
+        $clinicId = $clinic->id;
+        $clinic = Clinic::with(['user', 'secretary','clinicDetails','clinicSettings','doctorProfile'])
+            ->where('id', $clinicId)
+            ->firstOrFail();
+
+        $services = ClinicServices::where('clinic_id', $clinicId)->with('service:id,name,description')->get();
+
+        return [
+            'clinic' => [
+                'name' => $clinic->name,
+                'address' => $clinic->address,
+                'status' => $clinic->is_active,
+            ],
+            'doctor' => $clinic->doctor ? [
+                'clinic_id' => $clinic->id,
+                'doctor_id' => $clinic->doctor->id,
+                'name' => $clinic->doctor->name,
+                'email' => $clinic->doctor->email,
+            ] : null,
+            'services' => $services,
+            'doctor' => $clinic->doctor,
+            'doctor_profile' => $clinic->doctorProfile,
+            'clinic_settings' => $clinic->clinicSettings,
+            'clinic_details' => $clinic->clinicDetails,
+
         ];
     }
 

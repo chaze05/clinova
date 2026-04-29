@@ -27,6 +27,7 @@ export default async function ClinicPage({ params }: any) {
 
   const res = await fetch(
     `https://clinova.onrender.com/api/public/${slug}`,
+    // `http://localhost:8000/api/public/${slug}`,
     {
       cache: "no-store",
     }
@@ -35,7 +36,7 @@ export default async function ClinicPage({ params }: any) {
   if (!res.ok) return notFound();
 
   const clinic = await res.json();
-
+  console.log(clinic);
   if (!clinic) return notFound();
 
   const theme = getClinicTheme(clinic.theme);

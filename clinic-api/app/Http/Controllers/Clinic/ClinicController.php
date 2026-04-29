@@ -47,4 +47,9 @@ class ClinicController extends Controller
     {
         return $this->service->getDashboard($id);
     }
+
+    public function showPublic($slug)
+    {
+        return $this->service->getDashboardPublic($slug);
+    }
 }

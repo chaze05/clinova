@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('appointment_attachments', function (Blueprint $table) {
             $table->id();
-
+            
             $table->foreignId('clinic_id')->constrained()->cascadeOnDelete();
             $table->foreignId('appointment_id')->constrained()->cascadeOnDelete();
             $table->foreignId('patient_id')->constrained()->cascadeOnDelete();

@@ -11,8 +11,7 @@ export default function Footer({ clinic }: any) {
           </h3>
 
           <p className="text-sm text-gray-400 mt-3">
-            Modern healthcare made simple. Book appointments, meet doctors,
-            and get care faster.
+            {clinic?.clinic_details.description || "Modern healthcare made simple. Book appointments, meet doctors,and get care faster."}
           </p>
         </div>
 
@@ -21,10 +20,9 @@ export default function Footer({ clinic }: any) {
           <h4 className="text-white font-medium mb-3">Quick Links</h4>
 
           <ul className="space-y-2 text-sm">
-            <li>Home</li>
             <li>Services</li>
             <li>Doctors</li>
-            <li>Appointments</li>
+            <li>Map</li>
           </ul>
         </div>
 
@@ -33,9 +31,9 @@ export default function Footer({ clinic }: any) {
           <h4 className="text-white font-medium mb-3">Contact</h4>
 
           <ul className="space-y-2 text-sm">
-            <li>{clinic?.address || "Quezon City, Philippines"}</li>
-            <li>{clinic?.phone || "+63 900 000 0000"}</li>
-            <li>{clinic?.email || "clinic@example.com"}</li>
+            <li>{clinic?.clinic_details.address || "Quezon City, Philippines"}</li>
+            <li>{clinic?.clinic_details.contact_phone || "+63 900 000 0000"}</li>
+            <li>{clinic?.clinic_details.contact_email || "clinic@example.com"}</li>
           </ul>
         </div>
 

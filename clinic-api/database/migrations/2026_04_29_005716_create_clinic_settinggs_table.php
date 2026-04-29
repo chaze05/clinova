@@ -24,7 +24,7 @@ return new class extends Migration
             $table->boolean('enable_sms_notifications')->default(false);
 
             // 📋 Business rules
-            $table->boolean('require_approval_for_appointments')->default(false);
+            $table->boolean('auto_approve_appointments')->default(false);
             $table->boolean('allow_walk_in')->default(true);
 
             // 🌍 System
@@ -36,7 +36,8 @@ return new class extends Migration
 
             $table->string('template')->default('modern'); 
             // options: modern | minimal | medical | pro
-
+            $table->integer('max_appointments_per_day')->default(20);
+            
             $table->string('layout')->default('template_a'); 
             // options: template_a | template_b | template_c
 

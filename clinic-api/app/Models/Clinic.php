@@ -9,6 +9,7 @@ use App\Models\clinicServices;
 use App\Models\Service;
 use App\Models\Bill;
 use App\Models\DoctorProfile;
+use App\Models\ClinicSettings;
 use Illuminate\Database\Eloquent\Model;
 
 class Clinic extends Model
@@ -55,7 +56,7 @@ class Clinic extends Model
         return $this->has_multiple_doctors || $this->max_doctors > 1;
     }
 
-    public function doctor()
+    public function user()
     {
         return $this->hasOne(User::class)->where('role', 'doctor');
     }
@@ -92,6 +93,10 @@ class Clinic extends Model
         return $this->hasOne(DoctorProfile::class);
     }
 
+    public function clinicSettings()
+    {
+        return $this->hasOne(ClinicSettings::class);
+    }
 
 
 }

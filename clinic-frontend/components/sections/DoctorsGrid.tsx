@@ -1,5 +1,5 @@
 export default function DoctorsGrid({ clinic }: any) {
-    const {name,email,image,photo} = clinic.doctor;
+    const {display_name,email,image,photo,bio,sub_specialty,education} = clinic.doctor_profile;
     console.log('here',{clinic});
     return (
         <section id="doctors" className="py-10 px-6 bg-gray-100">
@@ -16,8 +16,8 @@ export default function DoctorsGrid({ clinic }: any) {
                 <div className="md:w-1/2 w-full bg-gray-100 flex items-center justify-center overflow-hidden rounded-l-2xl">
                     {photo ? (
                     <img
-                        src={image}
-                        alt={name}
+                        src={photo}
+                        alt={display_name}
                         className="w-full h-full object-cover"
                     />
                     ) : (
@@ -31,7 +31,7 @@ export default function DoctorsGrid({ clinic }: any) {
                 <div className="md:w-1/2 w-full flex flex-col items-start justify-start p-8 bg-white rounded-r-2xl">
 
                     <h2 className="text-2xl font-bold text-gray-800">
-                    {name ? name : 'Dr. John Doe' }
+                    {display_name ? display_name : 'Dr. John Doe' }
                     </h2>
 
                     <p className="text-gray-500 mt-1">
@@ -39,12 +39,11 @@ export default function DoctorsGrid({ clinic }: any) {
                     </p>
 
                     <p className="text-sm text-gray-400 mt-2">
-                    General Specialist
+                    {sub_specialty}
                     </p>
 
                     <p className="text-gray-600 mt-4 leading-relaxed">
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                    Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    {bio}
                     </p>
 
                     {/* Dummy stats / info */}

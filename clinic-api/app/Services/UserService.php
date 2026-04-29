@@ -32,4 +32,11 @@ class UserService
 
         return $secretary;
     }
+
+    public function getClinicID($doctorID)
+    {
+        $clinicID = User::where('id', $doctorID)->value('clinic_id');
+
+        return $clinicID;
+    }
 }

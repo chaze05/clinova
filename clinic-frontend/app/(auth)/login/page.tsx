@@ -34,8 +34,6 @@ export default function LoginPage() {
       setLoading(true);
       const user = await login(email, password);
 
-      console.log("LOGGED USER:", user);
-
       if (!user || !user.role) {
         throw new Error("Invalid user response");
       }
