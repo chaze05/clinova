@@ -55,12 +55,7 @@ export default function Profile() {
 
   return (
     <div className="p-6 bg-gray-50 min-h-screen">
-
       {/* HEADER */}
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">
-        Profile Settings
-      </h1>
-
       <div className="grid md:grid-cols-3 gap-6">
 
         {/* LEFT - PHOTO */}

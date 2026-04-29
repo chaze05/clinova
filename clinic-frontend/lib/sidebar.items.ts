@@ -31,8 +31,8 @@ export const menuByRole: Record<Role, any[]> = {
     { label: "Patients", href: "/clinic/patients", icon: Users },
     { label: "Appointments", href: "/clinic/appointments", icon: Calendar },
     { label: "Services", href: "/clinic/services", icon: Syringe },
-    { label: "Schedule", href: "/clinic/schedule", icon: Stethoscope, isActive:0 },
-    { label: "Settings", href: "/clinic/settings", icon: Settings, isActive:0 },
+    // { label: "Schedule", href: "/clinic/schedule", icon: Stethoscope, isActive:0 },
+    { label: "Settings", href: "/clinic/settings", icon: Settings},
     { label: "Log-out",  href:'' , icon: LogOut },
   ],
 
