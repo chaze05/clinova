@@ -14,6 +14,7 @@ export default function RequestsTable() {
   const [tab, setTab] = useState<"pending" | "rejected">("pending");
   const [loading, setLoading] = useState(false);
   const [open,setOpen] = useState(false);
+  const [selectedAppointment,setSelectedAppointment] = useState();
   const [appointment,setAppointment] = useState();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
