@@ -36,7 +36,6 @@ export default async function ClinicPage({ params }: any) {
   if (!res.ok) return notFound();
 
   const clinic = await res.json();
-  console.log(clinic);
   if (!clinic) return notFound();
 
   const theme = getClinicTheme(clinic.theme);

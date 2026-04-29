@@ -115,7 +115,6 @@ export default function ServicesPage(clinic:any) {
         setServices?: any
     ) => {
         // 🔥 UPDATE UI FIRST (this triggers animation)
-        console.log({isActive});
         if (setServices) {
             setServices((prev: any[]) =>
                 prev.map((s) =>
@@ -133,7 +132,6 @@ export default function ServicesPage(clinic:any) {
                 ...data,
             });
             const actionDone = isActive ? 'Enabled' : 'Disabled';
-            console.log({data});
             toast.success(`${data?.name || ''} Service ${actionDone} successfully.`);
         } catch (err) {
             console.error(err);

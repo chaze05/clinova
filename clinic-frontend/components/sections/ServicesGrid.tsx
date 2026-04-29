@@ -1,7 +1,6 @@
 "use client";
 
 export default function ServicesSlider({ clinic }: any) {
-  console.log({clinic})
   return (
     <section id="services" className="py-16 px-6">
       

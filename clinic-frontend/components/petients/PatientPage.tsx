@@ -42,7 +42,6 @@ export default function PatientsPage() {
         const res = await api.get('/api/patients');
             // setEvents(res.data);
         const data = res.data;
-        console.log({data});
         const mappedpatient = data.map((patient:any) => ({
             id: patient.id,
             patientName:patient.name,

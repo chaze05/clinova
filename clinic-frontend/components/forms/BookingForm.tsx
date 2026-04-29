@@ -39,9 +39,8 @@ export default function BookingForm({
   const dateRef = useRef<HTMLInputElement | null>(date);
   const { services } = clinicData;
   const [attachment, setAttachment] = useState<File | null>(null);
-  const { id: clinic_id } = clinicData.clinic;
-  const { doctor_id } = clinicData.doctor_profile.id;
-
+  const clinic_id= clinicData.clinic_details.clinic_id;
+  const doctor_id = clinicData.doctor_profile.user_id;
   // ================= ADMIN STATE =================
   const [patientSearch, setPatientSearch] = useState("");
   const [patients, setPatients] = useState<any[]>([]);
@@ -159,7 +158,7 @@ export default function BookingForm({
         payload.patientEmail = form.patientEmail;
         payload.patientMobile = form.patientMobile;
       }
-
+      console.log({payload});
       const result = bookingSchema.safeParse(payload);
 
 

@@ -84,7 +84,6 @@ export default function GeneralSettings() {
 
     alert("Settings updated successfully!");
   };
-  console.log({settings});
   if (loading) return <p>Loading settings...</p>;
   return (
     <div className="grid gap-6">

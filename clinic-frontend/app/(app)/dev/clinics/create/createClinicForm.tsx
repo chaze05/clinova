@@ -37,13 +37,9 @@ export default function CreateClinicForm({ onClose }: { onClose?: () => void }) 
         const result = clinicSchema.safeParse(payload);
 
         if (!result.success) {
-            console.log(result.error.format());
             return;
         }
         const res = await api.post("/api/addClinic", payload);
-
-        console.log("Created:", res.data);
-
         onClose?.(); // close modal
         // optionally refresh list (SWR / router refresh)
 

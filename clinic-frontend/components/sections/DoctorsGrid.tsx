@@ -1,6 +1,5 @@
 export default function DoctorsGrid({ clinic }: any) {
-    const {display_name,email,image,photo,bio,sub_specialty,education} = clinic.doctor_profile;
-    console.log('here',{clinic});
+    const {display_name,email,photo,bio,sub_specialty} = clinic.doctor_profile;
     return (
         <section id="doctors" className="py-10 px-6 bg-gray-100">
             <h2 className="text-3xl font-bold text-gray-800 text-center">
