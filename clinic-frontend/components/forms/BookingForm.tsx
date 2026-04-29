@@ -40,7 +40,7 @@ export default function BookingForm({
   const { services } = clinicData;
   const [attachment, setAttachment] = useState<File | null>(null);
   const { id: clinic_id } = clinicData.clinic;
-  const { doctor_id } = clinicData.doctor;
+  const { doctor_id } = clinicData.doctor_profile.id;
 
   // ================= ADMIN STATE =================
   const [patientSearch, setPatientSearch] = useState("");
