@@ -25,8 +25,9 @@ export default function Profile() {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await api.get("/doctor/profile");
-        setForm(res.data);
+        const res = await api.get("/api/profile");
+        console.log(res.data[0].doctor_profile);
+        setForm(res.data[0].doctor_profile);
       } catch (err) {
         console.log(err);
       }
@@ -52,7 +53,7 @@ export default function Profile() {
       setLoading(false);
     }
   };
-
+ 
   return (
     <div className="bg-gray-50 min-h-screen">
       {/* HEADER */}
@@ -69,14 +70,14 @@ export default function Profile() {
               </div>
             )}
           </div>
-
+{/* 
           <input
             className="mt-4 w-full text-sm"
             placeholder="Photo URL"
             name="photo"
             value={form.photo}
             onChange={handleChange}
-          />
+          /> */}
         </div>
 
         {/* RIGHT - FORM */}

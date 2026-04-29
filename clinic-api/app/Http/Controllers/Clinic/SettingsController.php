@@ -20,4 +20,9 @@ class SettingsController extends Controller
     {           
         return response()->json($this->service->getSettings($request->user()->clinic_id));
     }
+
+    public function profile(Request $request)
+    {           
+        return response()->json($this->service->getProfile($request->user()->id));
+    }
 }

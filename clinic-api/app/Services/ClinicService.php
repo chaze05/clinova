@@ -239,7 +239,7 @@ class ClinicService
 
         // now you ALWAYS have clinic model
         $clinicId = $clinic->id;
-        $clinic = Clinic::with(['doctor', 'secretary'])
+        $clinic = Clinic::with(['user', 'secretary','doctorProfile'])
             ->where('id', $clinicId)
             ->firstOrFail();
 
@@ -293,11 +293,11 @@ class ClinicService
                 'status' => $clinic->is_active,
             ],
 
-            'doctor' => $clinic->doctor ? [
+            'doctor' => $clinic->user ? [
                 'clinic_id' => $clinic->id,
-                'doctor_id' => $clinic->doctor->id,
-                'name' => $clinic->doctor->name,
-                'email' => $clinic->doctor->email,
+                'doctor_id' => $clinic->user->id,
+                'name' => $clinic->user->name,
+                'email' => $clinic->user->email,
             ] : null,
 
             'secretary' => $clinic->secretary ? [
@@ -315,6 +315,7 @@ class ClinicService
             'newRequestList' => $newRequestsList,
             'upcomingAppointments' => $upcomingAppointments,
             'clinic_details' => $clinicDetails,
+            'doctor_profile' => $clinic->doctorProfile,
             'appointmentsToday' => $appointmentsToday,
         ];
     }
@@ -352,7 +353,7 @@ class ClinicService
                 'email' => $clinic->doctor->email,
             ] : null,
             'services' => $services,
-            'doctor' => $clinic->doctor,
+            'doctor' => $clinic->user,
             'doctor_profile' => $clinic->doctorProfile,
             'clinic_settings' => $clinic->clinicSettings,
             'clinic_details' => $clinic->clinicDetails,

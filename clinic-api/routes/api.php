@@ -60,7 +60,9 @@ Route::middleware(['auth:sanctum', 'clinic'])->group(function () {
 
     // SETTINGS ROUTES
     Route::get('/settings', [SettingsController::class, 'index']);
+    Route::get('/profile',  [SettingsController::class, 'profile']);
     Route::put('/settings', [SettingsController::class, 'update']);
+
 });
 
 // CLINC PUBLIC ROUTE

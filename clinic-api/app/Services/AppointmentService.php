@@ -31,7 +31,7 @@ class AppointmentService
             ->when($status, function ($query) use ($status) {
                 $query->where('status', $status);
             })
-            ->orderBy('appointment_date', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
     }
 
@@ -72,6 +72,7 @@ class AppointmentService
             'start_time' => $data['time'] ?? null,
             'end_time' => $data['end_time'] ?? null,
             'status' => $user->id ? 'confirmed':'pending',
+            'description'  => $data['notes'],
             'created_by' => $user->id ?? $patientId,
         ]);
     }

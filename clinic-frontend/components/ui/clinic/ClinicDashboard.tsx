@@ -796,7 +796,7 @@ export default function ClinicDashboard() {
             </div>
             <div>
               <p className="text-sm text-slate-500">Doctor</p>
-              <p className="font-semibold">{clinic.doctor.name}</p>
+              <p className="font-semibold">{clinic?.doctor?.name}</p>
               <p className="text-xs text-slate-500">
                 {clinic.doctor.specialization}
               </p>

@@ -87,7 +87,7 @@ export default function GeneralSettings() {
   if (loading) return <p>Loading settings...</p>;
   return (
     <div className="grid gap-6">
-        <div className="flex flex-wrap sm:flex-nowrap gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2  gap-6">
         {/* 🏥 CLINIC DETAILS */}
             <Card>
                 <CardContent className="p-6 space-y-4">

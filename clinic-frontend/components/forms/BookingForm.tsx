@@ -32,6 +32,7 @@ export default function BookingForm({
     date: date || "",
     time: "",
     service: "",
+    notes:'',
   });
 
   const [error, setError] = useState<Record<string, string>>({});
@@ -96,7 +97,8 @@ export default function BookingForm({
       patient_id: p.id,
       patientEmail: p.email,
       patientName: p.name,
-      patientMobile: p.contact_number
+      patientMobile: p.contact_number,
+      note:p.notes
     }));
     setPatients([]);
     setPatientSearch("");
@@ -142,6 +144,7 @@ export default function BookingForm({
         date: form.date ?? date,
         time: form.time,
         service: form.service,
+        note:form.notes,
       };
       if (mode === "admin") {
         if (!form.patient_id) {
@@ -153,12 +156,12 @@ export default function BookingForm({
         payload.patientName = form.patientName;
         payload.patientEmail = form.patientEmail;
         payload.patientMobile = form.patientMobile;
+        payload.notes         = form.notes;
       } else {
         payload.patientName = form.patientName;
         payload.patientEmail = form.patientEmail;
         payload.patientMobile = form.patientMobile;
       }
-      console.log({payload});
       const result = bookingSchema.safeParse(payload);
 
 
@@ -634,6 +637,17 @@ export default function BookingForm({
           )}
         </div>
 
+        <div className="mb-1">
+          <p className="text-left">Notes</p>
+          <textarea
+            value={form.notes}
+            placeholder="Notes"
+            onChange={(e) =>
+              handleChange("notes", e.target.value)
+            }
+            className={`w-full border p-2 rounded`}/>
+          {/* ❗ RESTORED ERROR */}
+        </div>
         {/* ================= ATTACHMENT ================= */}
         {/* <div className="mb-1">
           <p className="text-left">Attachment (optional)</p>

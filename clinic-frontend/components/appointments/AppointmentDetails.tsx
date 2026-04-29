@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Divide } from "lucide-react";
 
 const ProBadge = () => (
   <span className="ml-2 inline-flex items-center text-[10px] font-bold px-2 py-[2px] rounded-full
@@ -18,7 +18,7 @@ export default function AppointmentDetails({
 }) {
   
   const [loading, setLoading] = useState(false);
-  
+  console.log(appointment.description);
   const handleNotify = async () => {
     try {
       setLoading(true);
@@ -109,9 +109,18 @@ export default function AppointmentDetails({
           </div>
 
           <div className="rounded-lg border bg-gray-50 p-3 col-span-2">
-            <p className="text-[13px] text-gray-500">Reason</p>
-            <p className="text-sm text-gray-700">
-              {appointment?.reason || "General check-up and consultation"}
+
+            <p className="text-sm text-black">
+              <label htmlFor="">Service: <br /></label> 
+              {appointment?.service.description || "General check-up and consultation"}
+            </p>
+            <p>
+              <label htmlFor="">Reason: <br /></label> 
+              {appointment?.description && 
+                <span className="block">
+                  {appointment?.description }
+                </span>
+              }
             </p>
           </div>
         </div>

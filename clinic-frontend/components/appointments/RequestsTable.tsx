@@ -1,16 +1,20 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import api from "@/lib/api";
-import { Calendar, Check, X } from "lucide-react";
+import { Calendar, Check, X, Eye} from "lucide-react";
 import ProBadge from "../ui/badge";
 import {toast} from "react-hot-toast";
+import Modal from "../ui/modal/Modal";
+import ModalHeader from "../ui/modal/ModalHeader";
+import ModalBody from "../ui/modal/ModalBody";
+import AppointmentDetails from "./AppointmentDetails";
 
 export default function RequestsTable() {
   const [data, setData] = useState<any[]>([]);
   const [tab, setTab] = useState<"pending" | "rejected">("pending");
   const [loading, setLoading] = useState(false);
   const [open,setOpen] = useState(false);
-  const [selectedAppointment,setSelectedAppointment] = useState();
+  const [appointment,setAppointment] = useState();
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
 
@@ -196,31 +200,38 @@ export default function RequestsTable() {
             {!loading && paginated.length > 0 &&
               paginated.map((item: any) => (
                 <tr key={item.id} className="hover:bg-gray-50 transition">
-                  <td className="px-6 py-4 font-medium text-gray-800">
+                  <td className="px-6 py-4 font-medium text-black text-sm">
                     {item.patient.name}
                   </td>
 
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-black text-sm">
                     {item.patient.contact_number}
                   </td>
 
-                  <td className="px-6 py-4 text-gray-600">
-                    <span className="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 text-gray-700 text-xs">
+                  <td className="px-6 py-4 text-black">
+                    <span className="inline-flex items-center px-2 py-1 rounded-md bg-gray-100 text-black text-sm">
                       {item.appointment_date}
                     </span>
                   </td>
 
-                  <td className="px-6 py-4 text-gray-600">
+                  <td className="px-6 py-4 text-black">
                     {item.start_time}
                   </td>
 
-                  <td className="px-6 py-4 text-gray-500 max-w-xs truncate">
+                  <td className="px-6 py-4 text-black max-w-xs truncate">
                     {item.service.description || "-"}
                   </td>
 
                   {tab === "pending" && (
                     <td className="px-6 py-4">
                       <div className="flex gap-2">
+                        <button
+                          onClick={() => {setAppointment(item); setOpen(true); console.log(item)}}
+                          className="cursor-pointer p-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition"
+                          title="View Details"
+                        >
+                          <Eye size={18} />
+                        </button>
                         <button
                           onClick={() => handleApprove(item.id)}
                           className="cursor-pointer p-2 rounded-lg bg-green-50 text-green-600 hover:bg-green-100 transition"
@@ -276,7 +287,7 @@ export default function RequestsTable() {
             >
               {/* Header */}
               <div className="flex justify-between items-start">
-                <p className="font-semibold text-gray-800">
+                <p className="font-semibold text-black">
                   {item.patient.name}
                 </p>
 
@@ -354,6 +365,15 @@ export default function RequestsTable() {
           </button>
         </div>
       </div>
+
+        <Modal open={open} onClose={() => setOpen(false)}>
+          <div className="w-full max-w-2xl mx-auto px-3 sm:px-6">
+            <ModalHeader title="Appointment Details" />
+            <ModalBody>
+                <AppointmentDetails appointment={appointment} />
+            </ModalBody>
+          </div>
+        </Modal>
     </div>
   );
 }

@@ -43,6 +43,7 @@ class AppointmentController extends Controller
 
             // SERVICES
             'service' => 'nullable',
+            'notes'   => 'nullable',
             // 'services.*.id' => 'required|exists:services,id',
         ]);
 

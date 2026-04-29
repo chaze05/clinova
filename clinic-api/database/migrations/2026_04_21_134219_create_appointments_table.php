@@ -31,8 +31,9 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->foreignId('service_id')
-                ->constrained('services')
-                ->cascadeOnDelete();
+            ->constrained('services')
+            ->cascadeOnDelete();
+            
             $table->string('title')->nullable();
             $table->text('description')->nullable();
 
