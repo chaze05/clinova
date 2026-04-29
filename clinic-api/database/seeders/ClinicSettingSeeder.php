@@ -3,7 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\ClinicSetting;
+use App\Models\ClinicSettings;
 
 class ClinicSettingSeeder extends Seeder
 {
