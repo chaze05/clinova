@@ -9,7 +9,7 @@ class ClinicSettingSeeder extends Seeder
 {
     public function run(): void
     {
-        ClinicSetting::create([
+        ClinicSettings::create([
             'clinic_id' => 1,
 
             // Scheduling
