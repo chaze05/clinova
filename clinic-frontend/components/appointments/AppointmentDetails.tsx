@@ -18,7 +18,6 @@ export default function AppointmentDetails({
 }) {
   
   const [loading, setLoading] = useState(false);
-  console.log(appointment.description);
   const handleNotify = async () => {
     try {
       setLoading(true);
